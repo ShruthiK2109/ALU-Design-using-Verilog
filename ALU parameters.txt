@@ -1,0 +1,18 @@
+// These are my parameters
+parameter width = 8 ;
+parameter func_width = 4 ;
+parameter FUNC_ADD = 0 ;
+parameter FUNC_ADDC = 1 ;
+parameter FUNC_SUBTRACTION = 2 ;
+parameter FUNC_GT = 3 ;
+parameter FUNC_LT = 4;
+parameter FUNC_EQUAL = 5 ;
+parameter FUNC_AND = 6 ;
+parameter FUNC_OR = 7 ;
+parameter FUNC_NOT = 8 ;
+parameter FUNC_LRS= 9 ;
+parameter FUNC_LLS = 10 ;
+parameter FUNC_MULTIPLICATION = 11 ;
+parameter FUNC_DIVISION = 12 ;
+parameter FUNC_MODULO = 13;
+parameter FUNC_ARS = 14;

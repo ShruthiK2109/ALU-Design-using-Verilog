@@ -1,0 +1,53 @@
+module tb();
+`include "params.h"
+reg [width-1:0] A ;
+reg [width-1:0] B ;
+wire [width-1:0] O ;
+reg [func_width-1:0] func ;
+reg Cin ;
+wire Cout ;
+wire [3:0] flags ;
+
+initial begin
+$dumpfile("alu.vcd") ;
+$dumpvars(0,UUT) ;
+$display( "time A B C Cin Cout") ;
+$monitor( "%g %x %x %x %b %b", $time, A, B, O, Cin, Cout ) ;
+A = 1 ;
+B = 2 ;
+func = FUNC_ADD ;
+Cin = 1 ;
+#100 ;
+func = FUNC_ADDC ;
+Cin = 1 ;
+#100 ;
+func = FUNC_SUBTRACTION;
+#100 ; 
+func = FUNC_GT ;
+#100 ;
+func = FUNC_LT ;
+#100 ;
+func = FUNC_EQUAL ;
+#100 ;
+func = FUNC_AND ;
+#100 ;
+func = FUNC_OR ;
+#100 ;
+func = FUNC_NOT ;
+#100 ;
+func = FUNC_LRS ;
+#100 ;
+func = FUNC_LLS ;
+#100 ; 
+func = FUNC_MULTIPLICATION ;
+#100 ;
+func = FUNC_DIVISION ;
+#100 ;
+func = FUNC_MODULO;
+#100 ;
+func = FUNC_ARS ;
+#100 ;
+$finish ;
+end
+alu UUT( A, B, O, func, Cin, Cout, flags ) ;
+endmodule

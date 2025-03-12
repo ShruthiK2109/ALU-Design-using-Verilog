@@ -1,0 +1,81 @@
+module alu ( A, B, O, func, Cin, Cout, flags ) ;
+`include "params.h"
+input [width-1:0] A ;
+input [width-1:0] B ;
+output [width-1:0] O ;
+input [func_width-1:0] func ;
+input Cin ;
+output Cout ;
+output [3:0] flags ;
+
+// reg [width-1:0] result ;
+reg [width:0] result ;
+reg V, C, N, Z ;
+reg [3:0] rflags ;
+// always @ ( A or B or func or Cin ) 
+always @ ( * ) 
+  begin
+	Z = 'bX ;
+	V = 'bX ;
+	N = 'bX ;
+	C = 'bX ;
+	result[width] = 0 ;
+	case ( func )
+               FUNC_ADD: 
+		 result <= A + B ;
+               FUNC_ADDC: 
+		 result <= A + B + Cin ;  
+              FUNC_SUBTRACTION: 
+		  result <= A - B ; 
+              FUNC_GT: 
+                               result <= (A > B ? 1:0) ; 
+             FUNC_LT: 
+                               result <= (A < B ? 1:0) ;
+             FUNC_EQUAL: 
+                               result <= (A == B ? 1:0) ; 
+            FUNC_AND: 
+		result <= A & B ;  
+            FUNC_OR: 
+		result <= A | B ;  
+            FUNC_NOT: 
+		result <= ! A  ;
+           FUNC_LRS: 
+		result <= A >> 1 ; 
+           FUNC_LLS: 
+		result <= A << 1 ;
+           FUNC_MULTIPLICATION: 
+		result <= A * B ; 
+          FUNC_DIVISION: 
+		result <= A / B ; 
+          FUNC_MODULO: 
+		result <= A % B ; 
+
+      FUNC_ARS: 
+		result <= A >>> 1 ; 
+  endcase
+  end
+
+  // Calculate the flags
+  always @ ( result ) 
+  begin
+	if ( result[width] )
+	   N <= 1 ;
+        else 
+	   N <= 0 ;
+	C <= result[width];
+	V <= 0;
+	if(result==0)
+	  Z<=1;
+	else
+	  Z<=0;
+  end
+  
+  // concatenate flags
+  always @ ( N or C or Z or V )
+	rflags <= {Z,N,C,V} ;
+
+  assign O = result ;
+  assign Cout = result[width] ;
+  assign flags = rflags ;
+
+endmodule
